@@ -6,8 +6,7 @@ import pandas as pd
 import re
 import random
 
-#pd.read_csv('trump_pol_200.csv', error_bad_lines = False)
-
+# This function gets the titles of all the posts.
 def get_post_titles(inp,out):
 
     file_in = open(inp,'r')
@@ -22,6 +21,8 @@ def get_post_titles(inp,out):
 #get_post_titles("../data/20201119_hottest_politics.json", "../data/20201119_hottest_pol_titles.json")
 
 #file = open("../data/20201118_hottest_politics_titles.json",'r')
+
+# This file takes a input the titles file and returns all the titles with trump lines in them
 def write_file_trump(file_in,file_out):
     
     file  = open(file_in,'r')
@@ -37,7 +38,7 @@ def write_file_trump(file_in,file_out):
 #get_post_titles("../data/20201118_hottest_politics.json","../data/20201118_hottest_politics_titles.json")
 
 
-#Now we need to look at the merge betweem all the files.
+# We create a random function which randomly selects lines from 3 files.
     
 def chose_random_line(file_in, num_post):
     list_of_post = []
@@ -47,10 +48,13 @@ def chose_random_line(file_in, num_post):
         list_of_post.append(myline)
     return list_of_post
 
+
+# For the sample files, I decided to choose at random about the same amount of lines for each of the 3 posts.
+# so we could have an equal representation.
     
 def choose_lines(in_file1,in_file2,in_file3):#, out_file):
     list_1= chose_random_line(in_file1,67)
-    list_2= chose_random_line(in_file2,67)
+    list_2= chose_random_line(in_file2,66)
     list_3 = chose_random_line(in_file3,66)
 
     big_list = [list_1, list_2,list_3]
