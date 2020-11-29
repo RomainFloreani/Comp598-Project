@@ -16,21 +16,22 @@ politics = pd.read_csv('sample_donald_politics.csv')
 conservative = conservative.drop(['Unnamed: 0'], axis = 1)
 
 
-# I also wanted to test to merge for the two files
+# I create a merge of the two files. My rationale is for that is that I want to see if one subreddit tf-idf score outweights the other subreddit. 
 
 frames = [conservative, politics]
 merged = pd.concat(frames)
 #print(merged)
 
-# Over two mentions is good for getting more than words!
 
+# I create a function to clean the punctuation. I used the same pattern as for Assignment 9
 def clean_ponctuation(string):
     remove = '()[],-.?!:;#&'
     trans = str.maketrans(remove, ' '*len(remove))
     return string.translate(trans)
 
 
-# Now we have the numbers with merged, politics and conservative
+# Just like for assignment 9a. I create a word_count function. Since there are multiple columns,
+# it is slightly different.
 def word_count(df):
     topics = ['lawsuit','vote count', 'pandemic related','pol opi', 'trump a', 'trump c']
     
@@ -63,12 +64,15 @@ def word_count(df):
         word_by_topics[topic] = final
             
     json_out = json.dumps(word_by_topics,indent = 4)
-    #print(json_out)
+    
     return json_out
 
 word_count(politics)
 
-
+# After that we have calculated the list of words, I open the 6 large files
+# I run through each file and for simplicity. I add all words to a list of lists
+# where each sublist is all the words from each of the reddit files. PS: This is def not the most efficient method. But it was fast to implement and
+# runs fast.
 def add_words(file1,file2,file3,file4,file5,file6):
     list_of_lists = []
     in_file1 = open(file1,'r') 
@@ -85,40 +89,56 @@ def add_words(file1,file2,file3,file4,file5,file6):
     list6= []
     for line in in_file1:
         words = line.split()
+        
         for word in words:
-            list1.append(word)
+            word = clean_ponctuation(word)
+            if word.isalpha():
+                list1.append(word)
     list_of_lists.append(list1)
+    
     for line in in_file2:
         words = line.split()
         for word in words:
-            list2.append(word)
+            word = clean_ponctuation(word)
+            if word.isalpha():
+                list2.append(word)
     list_of_lists.append(list2)
     for line in in_file3:
         words = line.split()
         for word in words:
-            list3.append(word)
+            word = clean_ponctuation(word)
+            if word.isalpha():
+                list3.append(word)
     list_of_lists.append(list3)
     for line in in_file4:
         words = line.split()
         for word in words:
-            list4.append(word)
+            word = clean_ponctuation(word)
+            if word.isalpha():
+                list4.append(word)
     list_of_lists.append(list4)
     for line in in_file5:
         words = line.split()
         for word in words:
-            list5.append(word)
+            word = clean_ponctuation(word)
+            if word.isalpha():
+                list5.append(word)
     list_of_lists.append(list5)
     for line in in_file6:
         words = line.split()
         for word in words:
-            list2.append(word)
+            word = clean_ponctuation(word)
+            if word.isalpha():
+                list6.append(word)
     list_of_lists.append(list6)
     
     return list_of_lists
-
 massive_list = add_words('hot_con_trump18.json','hot_con_trump19.json','hot_con_trump20.json',
                          'hot_pol_trump18.json','hot_pol_trump19.json','hot_pol_trump20.json')    
 
+
+# This is the same TF_IDF as for the bonus of the assignment . I just added a 1 in the denomiator of the formula to not 
+# a Divide by zero exception.
 def ComputeTF_IDF(data,term,d,list_of_lists):
     sum_d = 0
     for w in data[d]:
@@ -142,7 +162,7 @@ def main():
     num_words = 10
     #int(words_count_dict)
     
-    
+    # I used pandas in ascending order in order to get the max tf-idf scores.
     for topic in words_count_dict:
         
         tf_idf = {}
