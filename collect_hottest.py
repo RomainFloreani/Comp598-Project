@@ -6,6 +6,8 @@ import datetime
 import argparse
 import pandas as pd
 
+#This code was used to collect the 1000 hottest posts from both of the subreddits over 3 days.
+
 def scrape_reddit(num_posts,subreddit,before = 'null', after = 'null'):
     
     data = requests.get(f'http://api.reddit.com{subreddit}/hot?limit={num_posts}&before={before}&after={after}', 
