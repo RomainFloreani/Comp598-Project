@@ -36,7 +36,10 @@ def main():
         post = content['children']
         for i in range(0,100):
             try:
-                list_of_posts.append(json.dumps(post[i]))
+                if len(list_of_posts) < num_posts:
+                    list_of_posts.append(json.dumps(post[i]))
+                else:
+                    break
             except Exception as e:
                 continue
         after = content['after']
