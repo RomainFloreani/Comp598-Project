@@ -1,14 +1,15 @@
 
-
-
 import json
 import pandas as pd
 import re
 import random
 
 # This function gets the titles of all the posts.
-def get_post_titles(inp,out):
 
+def get_post_titles(inp,out):
+    """
+    (this takes as input a file with reddit posts), and returns a 
+    """
     file_in = open(inp,'r')
     file_out = open(out,'w')
     for line in file_in:
@@ -17,30 +18,33 @@ def get_post_titles(inp,out):
             file_out.write(data['data']['title'] + '\n')
         except Exception as e:
             continue
-    
-#get_post_titles("../data/20201119_hottest_politics.json", "../data/20201119_hottest_pol_titles.json")
-
-#file = open("../data/20201118_hottest_politics_titles.json",'r')
-
-# This file takes a input the titles file and returns all the titles with trump lines in them
+       
 def write_file_trump(file_in,file_out):
-    
-    file  = open(file_in,'r')
+    """
+    (file in) --> file out This takes a file of reddit post titles.
+    this will return a normal title file.
+    """
+    file_i  = open(file_in,'r')
     file_o = open(file_out,'w')
     
-    for line in file:
+    for line in file_i:
         if re.search("[^0-9a-zA-Z]Trump[^0-9a-zA-Z]", line) or re.search("^Trump[^0-9a-zA-Z]", line):
             file_o.write(line)
-    file.close()
+            #append to a list//
+    file_i.close()
     file_o.close()
 
-#write_file_trump("../data/20201119_hottest_pol_titles.json",'../data/trump_politics_20201119.json')
-#get_post_titles("../data/20201118_hottest_politics.json","../data/20201118_hottest_politics_titles.json")
+   
+
 
 
 # We create a random function which randomly selects lines from 3 files.
     
 def chose_random_line(file_in, num_post):
+    """
+    Takes a file as input a file and a number of posts and returns a list of posts.
+    
+    """
     list_of_post = []
     lines = open(file_in).read().splitlines()
     while(len(list_of_post) < num_post):
@@ -53,6 +57,9 @@ def chose_random_line(file_in, num_post):
 # so we could have an equal representation.
     
 def choose_lines(in_file1,in_file2,in_file3):#, out_file):
+    """
+    
+    """
     list_1= chose_random_line(in_file1,67)
     list_2= chose_random_line(in_file2,66)
     list_3 = chose_random_line(in_file3,66)
@@ -80,4 +87,9 @@ def choose_lines(in_file1,in_file2,in_file3):#, out_file):
 
 choose_lines("../data/trump_files/trump_politics_20201118.json","../data/trump_files/trump_politics_20201119.json","../data/trump_files/trump_politics_20201120.json")#"../data/trump_pol_200.csv")
     
+ def main():
     
+    pass
+
+if __name__ == "__main__":
+    main()
